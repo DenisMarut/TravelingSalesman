@@ -48,59 +48,33 @@ public class MainApp {
         //TODO        od 2->1 = 15, 1->3 = 45 itd. 15+45
         //TODO osobnik[2][1][3][0][5][7][4]   - nie moze sie indeks powtorzyc
 
+        List<List<Integer>> collectionWithSubjects = new ArrayList<>();
+
+        for (int i = 0; i < 40; i++) {
+            List<Integer> sub = new ArrayList<>();
+            sub = sequence(0,51);
+            Collections.shuffle(sub);
+            collectionWithSubjects.add(sub);
+        }
+        for (List<Integer> osobniki: collectionWithSubjects
+             ) {
+            System.out.println(osobniki);
+        }
+
         List<Integer> osobnikZSamymiIndexami = new ArrayList<>();
         List<Integer> sequence = sequence(0, 51);
         Collections.shuffle(sequence);
         System.out.println(sequence);
 
+        List<Integer> ocnaOsobnika = new ArrayList<>();
+        for(int i = 0; i < 51; i++){
+
+        }
 
 
 
-//        }
-//        List<Integer> indexy = new ArrayList<>();
-//        for (int z = 0; z < 51; z++){
-//            int i = rndRange(maxIndex);
-//            numbers[i] = numbers[i -1];
-//            maxIndex--;
-//            indexy.add(i);
-//        }
-//
-//        System.out.println(indexy);
 
-//        //Wybor 40 osobników (kazdy posiada 52 miasta)
-//        List<HashSet<Integer>> listOf40Elements = new ArrayList<>();
-//        HashSet<Integer> numbers = new HashSet<>();
-//        System.out.println(maxIndex + " Max index");
-//        List<Integer> unitMarks = new ArrayList<>();
-//
-//        for (int i = 0; i < 40; i++) {
-//            numbers = new HashSet<>();
-//            while (numbers.size() < maxIndex) {
-//                int elem = array[rndRange(52)][rndRange(52)];
-//                if (elem == 0) {
-//                    numbers.add(elem);
-//                    numbers.remove(elem);
-//                } else {
-//                    numbers.add(elem);
-//                }
-//            }
-//            //Zapisanie do listy  kazdego osobnika jako HashSet oraz ocene kazdego osobnika jako druga lista (zawierajacego tylko oceny)
-//            Integer integer = numbers.stream().mapToInt(Integer::intValue).sum();
-//            unitMarks.add(integer);
-//            listOf40Elements.add(numbers);
-//        }
-//
-//        for (HashSet<Integer> hashset : listOf40Elements
-//        ) {
-//            System.out.println(hashset);
-//        }
-//
-//        for (Integer unitSum: unitMarks
-//             ) {
-//            System.out.println(unitSum);
-//        }
 
-//        System.out.println("\n" + unitMarks);
 
         //TODO Selekcja
         //TODO Krzyzowanie i mutacja
