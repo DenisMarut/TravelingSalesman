@@ -56,25 +56,30 @@ public class MainApp {
             Collections.shuffle(sub);
             collectionWithSubjects.add(sub);
         }
-        for (List<Integer> osobniki: collectionWithSubjects
+
+//        for (List<Integer> subjects: collectionWithSubjects
+//             ) {
+//            System.out.println(subjects);
+//        }
+
+        List<Integer> sums = new ArrayList<>();
+
+        for (List<Integer> osobnikkk: collectionWithSubjects
              ) {
-            System.out.println(osobniki);
+            int sum = 0;
+            for(int i =0; i < osobnikkk.size() - 1; i++){
+                int current = osobnikkk.get(i);
+                int next = osobnikkk.get(i + 1);
+
+                sum += array[current][next];
+            }
+            int current = osobnikkk.get(osobnikkk.size() -1);
+            int next = osobnikkk.get(0);
+            sum += array[current][next];
+
+//            osobnikkk.add(sum);
+            System.out.println(osobnikkk + " " + sum);
         }
-
-        List<Integer> osobnikZSamymiIndexami = new ArrayList<>();
-        List<Integer> sequence = sequence(0, 51);
-        Collections.shuffle(sequence);
-        System.out.println(sequence);
-
-        List<Integer> ocnaOsobnika = new ArrayList<>();
-        for(int i = 0; i < 51; i++){
-
-        }
-
-
-
-
-
 
         //TODO Selekcja
         //TODO Krzyzowanie i mutacja
