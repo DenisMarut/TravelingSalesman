@@ -1,6 +1,8 @@
 package travelingSalesman.project;
 
 
+import javafx.util.Pair;
+
 import java.io.File;
 import java.security.KeyStore;
 import java.util.*;
@@ -89,28 +91,63 @@ public class MainApp {
         int k = 3;
 
         List<Integer> tournamentPopulation = new ArrayList<>();
+        List<List<Integer>> tournamentPopulation2222 = new ArrayList<>();
+
+//        for (int i = 0; i < 40; i++) {
+//            List<Integer> integerCollection = new ArrayList<>();
+//            for (int j = 0; j < k; j++) {
+//                int rndRange = rndRange(collectionWithSubjects.size() - 1);
+//                //z listy osobnikow wybrac tych z tymi indeksami
+//                List<Integer> chosenSubject = collectionWithSubjects.get(rndRange);//mam tego osobnika
+//                //pobieram jego ocene
+//                Integer rating = sums.get(rndRange);
+//                System.out.println("Osobnik " + chosenSubject + "ocena: " + rating);
+//
+//                integerCollection.add(rating);
+//
+//            }
+//            Integer min = Collections.min(integerCollection);
+//            System.out.println(min);
+//            tournamentPopulation.add(min);
+//        }
 
         for (int i = 0; i < 40; i++) {
             List<Integer> integerCollection = new ArrayList<>();
+            Map<List<Integer>,Integer> mapa = new HashMap<>();
             for (int j = 0; j < k; j++) {
                 int rndRange = rndRange(collectionWithSubjects.size() - 1);
                 //z listy osobnikow wybrac tych z tymi indeksami
                 List<Integer> chosenSubject = collectionWithSubjects.get(rndRange);//mam tego osobnika
                 //pobieram jego ocene
                 Integer rating = sums.get(rndRange);
+
+                //dodaje do mapy osobnika i jego ocene
+                mapa.put(chosenSubject,rating);
+
                 System.out.println("Osobnik " + chosenSubject + "ocena: " + rating);
 
                 integerCollection.add(rating);
 
             }
+            System.out.println("MAPA" + mapa);
             Integer min = Collections.min(integerCollection);
+            List<Integer> najslabszyOsobnik = getKey(mapa, min);
             System.out.println(min);
-            tournamentPopulation.add(min);
-        }
+            tournamentPopulation2222.add(najslabszyOsobnik);
 
-        System.out.println(tournamentPopulation);
+        }
+        for (List<Integer> sasa: tournamentPopulation2222
+             ) {
+            System.out.println(sasa);
+        }
+        System.out.println("ILOSC: "+ tournamentPopulation2222.size());
+
 
         //TODO Krzyzowanie i mutacja
+    }
+
+    public static <K,V> K getKey(Map<K,V> map, V value){
+        return map.keySet().stream().filter(key -> value.equals(map.get(key))).findFirst().get();
     }
 
     public static int judge(List<Integer> subject, int[][] array) {
