@@ -1,10 +1,7 @@
 package travelingSalesman.project;
 
 
-import javafx.util.Pair;
-
 import java.io.File;
-import java.security.KeyStore;
 import java.util.*;
 
 
@@ -33,19 +30,22 @@ public class MainApp {
                 }
             }
 
-            System.out.println("Size of array is equal to: " + array[0].length + " " + array[1].length);
-            int a = 17;
-            int b = 16;
-            System.out.println("Element at index " + a + " " + b + " is equal to:" + array[a][b]);
-            System.out.println("Element at index " + b + " " + a + " is equal to:" + array[b][a]);
+//            System.out.println("Size of array is equal to: " + array[0].length + " " + array[1].length);
+//            int a = 17;
+//            int b = 16;
+//            System.out.println("Element at index " + a + " " + b + " is equal to:" + array[a][b]);
+//            System.out.println("Element at index " + b + " " + a + " is equal to:" + array[b][a]);
 
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
+
         int maxIndex = array[0].length;
-        System.out.println(maxIndex);
+        System.out.println("Wymiar macierzy: " +maxIndex + "x" + maxIndex);
+        System.out.println("\n");
+
         //TODO        potem sa liczone odleglosci - pomiedzy danymi indeksami 2->1->3->0 itd.
         //TODO        od 2->1 = 15, 1->3 = 45 itd. 15+45
         //TODO osobnik[2][1][3][0][5][7][4]   - nie moze sie indeks powtorzyc
@@ -84,38 +84,19 @@ public class MainApp {
             sums.add(judgeResult);
             System.out.println(subject + " " + judgeResult);
         }
+        System.out.println("\n \n \n");
 
-        System.out.println(sums);
 
         //TODO Selekcja Turniejowa
-        int k = 3;
+        int tournamentParticipants = 3;
 
-        List<Integer> tournamentPopulation = new ArrayList<>();
-        List<List<Integer>> tournamentPopulation2222 = new ArrayList<>();
-
-//        for (int i = 0; i < 40; i++) {
-//            List<Integer> integerCollection = new ArrayList<>();
-//            for (int j = 0; j < k; j++) {
-//                int rndRange = rndRange(collectionWithSubjects.size() - 1);
-//                //z listy osobnikow wybrac tych z tymi indeksami
-//                List<Integer> chosenSubject = collectionWithSubjects.get(rndRange);//mam tego osobnika
-//                //pobieram jego ocene
-//                Integer rating = sums.get(rndRange);
-//                System.out.println("Osobnik " + chosenSubject + "ocena: " + rating);
-//
-//                integerCollection.add(rating);
-//
-//            }
-//            Integer min = Collections.min(integerCollection);
-//            System.out.println(min);
-//            tournamentPopulation.add(min);
-//        }
+        List<List<Integer>> tournamentPopulation = new ArrayList<>();
 
         for (int i = 0; i < 40; i++) {
             List<Integer> integerCollection = new ArrayList<>();
             Map<List<Integer>,Integer> mapa = new HashMap<>();
-            for (int j = 0; j < k; j++) {
-                int rndRange = rndRange(collectionWithSubjects.size() - 1);
+            for (int j = 0; j < tournamentParticipants; j++) {
+                int rndRange = rndZeroToParam(collectionWithSubjects.size());
                 //z listy osobnikow wybrac tych z tymi indeksami
                 List<Integer> chosenSubject = collectionWithSubjects.get(rndRange);//mam tego osobnika
                 //pobieram jego ocene
@@ -131,19 +112,24 @@ public class MainApp {
             }
             System.out.println("MAPA" + mapa);
             Integer min = Collections.min(integerCollection);
-            List<Integer> najslabszyOsobnik = getKey(mapa, min);
-            System.out.println(min);
-            tournamentPopulation2222.add(najslabszyOsobnik);
+            List<Integer> theWeaknessSubject = getKey(mapa, min);
+
+            tournamentPopulation.add(theWeaknessSubject);
 
         }
-        for (List<Integer> sasa: tournamentPopulation2222
+        System.out.println("\n \n \n");
+        for (List<Integer> weaknessGroup: tournamentPopulation
              ) {
-            System.out.println(sasa);
-        }
-        System.out.println("ILOSC: "+ tournamentPopulation2222.size());
+            System.out.println(weaknessGroup);
 
+        }
+        System.out.println("\n");
 
         //TODO Krzyzowanie i mutacja
+        System.out.println("KRZYZOWANKO");
+
+        ChildDTO childDTO = ChildDTO.crossOverOX(tournamentPopulation.get(0),tournamentPopulation.get(1), 15, 32, 95, 87);
+
     }
 
     public static <K,V> K getKey(Map<K,V> map, V value){
@@ -174,8 +160,14 @@ public class MainApp {
         return sequenceList;
     }
 
-    public static int rndRange(int finish) {
+    public static int rndZeroToParam(int finish) {
         return new Random().nextInt(finish);
+    }
+
+    public static int rndRange(int start, int finish){
+        Random rnd = new Random();
+        int rndInt = rnd.nextInt(finish + 1 - start) + start;
+        return rndInt;
     }
 
 
