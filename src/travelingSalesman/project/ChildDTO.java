@@ -1,9 +1,6 @@
 package travelingSalesman.project;
 
 
-
-
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,18 +12,18 @@ public class ChildDTO {
     private List<Integer> child1;
     private List<Integer> child2;
 
-    public static  ChildDTO crossOverOX (List<Integer> parent1, List<Integer> parent2, int firstPointCut, int secondPointCut, int crossoverParam, int randomIfCross){
-        if(randomIfCross > 0 && randomIfCross <= crossoverParam){
+    public static ChildDTO crossOverOX(List<Integer> parent1, List<Integer> parent2, int firstPointCut, int secondPointCut, int crossoverParam, int randomIfCross) {
+        if (randomIfCross > 0 && randomIfCross <= crossoverParam) {
             ChildDTO childDTO = new ChildDTO();
             //Srodki rodziców
-            List<Integer> firstParentMiddle = parent1.subList(firstPointCut , secondPointCut);
-            List<Integer> secondParentMiddle = parent2.subList(firstPointCut , secondPointCut);
+            List<Integer> firstParentMiddle = parent1.subList(firstPointCut, secondPointCut);
+            List<Integer> secondParentMiddle = parent2.subList(firstPointCut, secondPointCut);
 
             //Cały rodzic, ale zaczynajacy sie od 2punktu przeciecia
             List<Integer> firstParentEntire = new ArrayList<>();
             List<Integer> parent1AfterSecondPointCut = parent1.subList(secondPointCut, parent1.size());
             List<Integer> parent1FromStartToSecondPointCut = parent1.subList(0, secondPointCut);
-            List<Integer> parent1FromStartToFirstPointCut = parent1.subList(0,firstPointCut);
+            List<Integer> parent1FromStartToFirstPointCut = parent1.subList(0, firstPointCut);
             firstParentEntire.addAll(parent1AfterSecondPointCut);
             firstParentEntire.addAll(parent1FromStartToSecondPointCut);
 
@@ -34,7 +31,7 @@ public class ChildDTO {
             List<Integer> secondParentEntire = new ArrayList<>();
             List<Integer> parent2AfterSecondPointCut = parent2.subList(secondPointCut, parent2.size());
             List<Integer> parent2FromStartToSecondPointCut = parent2.subList(0, secondPointCut);
-            List<Integer> parent2FromStartToFirstPointCut = parent2.subList(0,firstPointCut);
+            List<Integer> parent2FromStartToFirstPointCut = parent2.subList(0, firstPointCut);
             secondParentEntire.addAll(parent2AfterSecondPointCut);
             secondParentEntire.addAll(parent2FromStartToSecondPointCut);
 
@@ -62,14 +59,12 @@ public class ChildDTO {
             List<Integer> children2;
 
             //Połączenie potomków:
-            children1 = Stream.of(children1FirstPart,secondParentMiddle,children1LastPart).flatMap(Collection::stream).collect(Collectors.toList());
-            children2 = Stream.of(children2FirstPart,firstParentMiddle,children2LastPart).flatMap(Collection::stream).collect(Collectors.toList());
+            children1 = Stream.of(children1FirstPart, secondParentMiddle, children1LastPart).flatMap(Collection::stream).collect(Collectors.toList());
+            children2 = Stream.of(children2FirstPart, firstParentMiddle, children2LastPart).flatMap(Collection::stream).collect(Collectors.toList());
 
             childDTO.setChild1(children1);
             childDTO.setChild2(children2);
             return childDTO;
-
-
         }
         //Jezeli random nie jest w zasięgu parametru krzyzowania
         else {
@@ -78,7 +73,6 @@ public class ChildDTO {
             dto.setChild2(parent2);
             return dto;
         }
-
     }
 
     public ChildDTO() {

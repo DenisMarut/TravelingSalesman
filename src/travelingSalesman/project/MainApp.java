@@ -29,21 +29,18 @@ public class MainApp {
                     array[j][i - 1] = array[i - 1][j];
                 }
             }
-
 //            System.out.println("Size of array is equal to: " + array[0].length + " " + array[1].length);
 //            int a = 17;
 //            int b = 16;
 //            System.out.println("Element at index " + a + " " + b + " is equal to:" + array[a][b]);
 //            System.out.println("Element at index " + b + " " + a + " is equal to:" + array[b][a]);
 
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-
         int maxIndex = array[0].length;
-        System.out.println("Wymiar macierzy: " +maxIndex + "x" + maxIndex);
+        System.out.println("Wymiar macierzy: " + maxIndex + "x" + maxIndex);
         System.out.println("\n");
 
         //TODO        potem sa liczone odleglosci - pomiedzy danymi indeksami 2->1->3->0 itd.
@@ -61,23 +58,6 @@ public class MainApp {
         //TODO Ocena osobników
         List<Integer> sums = new ArrayList<>();
 
-//        for (List<Integer> subject: collectionWithSubjects
-//             ) {
-//
-//            int sum = 0;
-//            for(int i =0; i < subject.size() - 1; i++){
-//                int current = subject.get(i);
-//                int next = subject.get(i + 1);
-//
-//                sum += array[current][next];
-//            }
-//            int current = subject.get(subject.size() -1);
-//            int next = subject.get(0);
-//            sum += array[current][next];
-//            sums.add(sum);
-//            System.out.println(subject + " " + sum);
-//        }
-
         for (List<Integer> subject : collectionWithSubjects
         ) {
             int judgeResult = judge(subject, array);
@@ -86,7 +66,6 @@ public class MainApp {
         }
         System.out.println("\n \n \n");
 
-
         //TODO Selekcja Turniejowa
         int tournamentParticipants = 3;
 
@@ -94,7 +73,7 @@ public class MainApp {
 
         for (int i = 0; i < 40; i++) {
             List<Integer> integerCollection = new ArrayList<>();
-            Map<List<Integer>,Integer> mapa = new HashMap<>();
+            Map<List<Integer>, Integer> mapa = new HashMap<>();
             for (int j = 0; j < tournamentParticipants; j++) {
                 int rndRange = rndZeroToParam(collectionWithSubjects.size());
                 //z listy osobnikow wybrac tych z tymi indeksami
@@ -103,7 +82,7 @@ public class MainApp {
                 Integer rating = sums.get(rndRange);
 
                 //dodaje do mapy osobnika i jego ocene
-                mapa.put(chosenSubject,rating);
+                mapa.put(chosenSubject, rating);
 
                 System.out.println("Osobnik " + chosenSubject + "ocena: " + rating);
 
@@ -118,8 +97,8 @@ public class MainApp {
 
         }
         System.out.println("\n \n \n");
-        for (List<Integer> weaknessGroup: tournamentPopulation
-             ) {
+        for (List<Integer> weaknessGroup : tournamentPopulation
+        ) {
             System.out.println(weaknessGroup);
 
         }
@@ -127,12 +106,45 @@ public class MainApp {
 
         //TODO Krzyzowanie i mutacja
         System.out.println("KRZYZOWANKO");
+        System.out.println("\n");
 
-        ChildDTO childDTO = ChildDTO.crossOverOX(tournamentPopulation.get(0),tournamentPopulation.get(1), 15, 32, 95, 87);
+        int crossOverParam = 99;
+        List<List<Integer>> populationAfterCrossOver = new ArrayList<>();
+        for(int i=0; i<tournamentPopulation.size() -1; i+=2){
+            List<Integer> list = tournamentPopulation.get(0);
+            //pobranie rozmiaru jeden z wewnetrznych list
+            int innerListSize = list.size();
+            int rndRange = rndRange(1, 100);
+            int firstPointCut = rndRange(0,innerListSize-2);
+            int secondPointCut = rndRange(firstPointCut+1,innerListSize-1);
+            ChildDTO childDTO = ChildDTO.crossOverOX(tournamentPopulation.get(i), tournamentPopulation.get(i+1), firstPointCut, secondPointCut, crossOverParam, rndRange);
+
+            List<Integer> child1 = childDTO.getChild1();
+            List<Integer> child2 = childDTO.getChild2();
+
+            populationAfterCrossOver.add(child1);
+            populationAfterCrossOver.add(child2);
+        }
+
+        for (List<Integer> crossOverSubjects: populationAfterCrossOver
+             ) {
+            System.out.println(crossOverSubjects);
+        }
+
+        System.out.println("\n\n\n");
+        List<Integer> sums2 = new ArrayList<>();
+
+        for (List<Integer> subject2 : populationAfterCrossOver
+        ) {
+            int judgeResult = judge(subject2, array);
+            sums2.add(judgeResult);
+            System.out.println(subject2 + " " + judgeResult);
+        }
+
 
     }
 
-    public static <K,V> K getKey(Map<K,V> map, V value){
+    public static <K, V> K getKey(Map<K, V> map, V value) {
         return map.keySet().stream().filter(key -> value.equals(map.get(key))).findFirst().get();
     }
 
@@ -164,7 +176,7 @@ public class MainApp {
         return new Random().nextInt(finish);
     }
 
-    public static int rndRange(int start, int finish){
+    public static int rndRange(int start, int finish) {
         Random rnd = new Random();
         int rndInt = rnd.nextInt(finish + 1 - start) + start;
         return rndInt;
