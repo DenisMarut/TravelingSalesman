@@ -3,6 +3,7 @@ package travelingSalesman.project;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class MainApp {
@@ -43,6 +44,7 @@ public class MainApp {
         int crossOverParam = 95;
         int tournamentParticipants = 3;
         int iterations = 5000;
+        int numberOfSubject = 40;
         //--------------------//
         int maxIndex = array[0].length;
         System.out.println("Wymiar macierzy: " + maxIndex + "x" + maxIndex);
@@ -54,13 +56,23 @@ public class MainApp {
 
         List<List<Integer>> collectionWithSubjects = new ArrayList<>();
 
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < numberOfSubject; i++) {
             List<Integer> sub = new ArrayList<>();
             sub = sequence(0, maxIndex - 1);
             Collections.shuffle(sub);
             collectionWithSubjects.add(sub);
         }
         //TODO Ocena osobników
+
+        List<Integer> sumsAtStart = new ArrayList<>();
+
+        for (List<Integer> subject : collectionWithSubjects
+        ) {
+            int judgeResult = judge(subject, array);
+            sumsAtStart.add(judgeResult);
+                System.out.println(subject + " " + judgeResult);
+        }
+        int ilosctur = 0;
         for (int tury = 0; tury < iterations; tury++) {
             List<Integer> sums = new ArrayList<>();
 
@@ -68,15 +80,15 @@ public class MainApp {
             ) {
                 int judgeResult = judge(subject, array);
                 sums.add(judgeResult);
-                System.out.println(subject + " " + judgeResult);
+//                System.out.println(subject + " " + judgeResult);
             }
-            System.out.println("\n \n \n");
+//            System.out.println("\n \n \n");
 
             //TODO Selekcja Turniejowa
 
             List<List<Integer>> tournamentPopulation = new ArrayList<>();
 
-            for (int i = 0; i < 40; i++) {
+            for (int i = 0; i < numberOfSubject; i++) {
                 List<Integer> integerCollection = new ArrayList<>();
                 Map<List<Integer>, Integer> mapa = new HashMap<>();
                 for (int j = 0; j < tournamentParticipants; j++) {
@@ -89,12 +101,12 @@ public class MainApp {
                     //dodaje do mapy osobnika i jego ocene
                     mapa.put(chosenSubject, rating);
 
-                    System.out.println("Osobnik " + chosenSubject + "ocena: " + rating);
+//                    System.out.println("Osobnik " + chosenSubject + "ocena: " + rating);
 
                     integerCollection.add(rating);
 
                 }
-                System.out.println("MAPA" + mapa);
+//                System.out.println("MAPA" + mapa);
                 Integer min = Collections.min(integerCollection);
                 List<Integer> theWeaknessSubject = getKey(mapa, min);
 
@@ -107,11 +119,11 @@ public class MainApp {
 //                System.out.println(weaknessGroup);
 //
 //            }
-            System.out.println("\n");
+//            System.out.println("\n");
 
             //TODO Krzyzowanie
-            System.out.println("KRZYZOWANKO");
-            System.out.println("\n");
+//            System.out.println("KRZYZOWANKO");
+//            System.out.println("\n");
 
 
             List<List<Integer>> populationAfterCrossOver = new ArrayList<>();
@@ -137,7 +149,6 @@ public class MainApp {
 //                System.out.println(crossOverSubjects);
 //            }
             //TODO mutacja i nowa populacja (populationAfterMutation)
-            System.out.println("\n\n\n");
 //            List<Integer> sums2 = new ArrayList<>();
 //
 //            for (List<Integer> subject2 : populationAfterCrossOver
@@ -150,12 +161,11 @@ public class MainApp {
             //Biore losowa ocene z randomowego osobnika z populacji poczatkowej.
             //Biore najmniejsza ocene i tego osobnika dodaje do kolejnej listy(kolekcji). Jezeli jest mniejszy niz osobnik poczatkowy.
             //Mam w kolekcji 1 osobnika.
-            List<Integer> osobnikNajmniejszy = new ArrayList<>();
 //        osobnikNajmniejszy = sequence(0,5);
 //        populationAfterCrossOver.add(5, osobnikNajmniejszy);
 
             //TODO Mutacja przez inwersje
-            System.out.println("MUTACJA");
+//            System.out.println("MUTACJA");
             List<Integer> judgeAfterMutation = new ArrayList<>();
             List<List<Integer>> populationAfterMutation = new ArrayList<>();
             for (List<Integer> subjectAfterMutation : populationAfterCrossOver
@@ -164,13 +174,13 @@ public class MainApp {
                 List<Integer> mutedSubject = mutation(subjectAfterMutation, mutationParam, rndRange);
                 populationAfterMutation.add(mutedSubject);
             }
-            System.out.println("WYSWIETLENIE PO MUTACJI \n");
+//            System.out.println("WYSWIETLENIE PO MUTACJI \n");
 
             for (List<Integer> subject : populationAfterMutation
             ) {
                 int judgeResult = judge(subject, array);
                 judgeAfterMutation.add(judgeResult);
-                System.out.println(subject + " " + judgeResult);
+//                System.out.println(subject + " " + judgeResult);
             }
 
             int i = rndRange(0, sums.size() - 1);
@@ -182,7 +192,7 @@ public class MainApp {
             List<Integer> theWeaknessAfterMutation = populationAfterMutation.get(theWeaknessSubAfterMutation);
             int judgeTheWeaknessSub = judge(theWeaknessAfterMutation, array);
 
-            int iterationNumber = tury % 40;
+            int iterationNumber = tury % numberOfSubject;
             //if(najslabszyOsobnikPoMutacji jest mniejszy niz losowy z populacji poczatkowej to go nadpisz, jezeli nie to przepisz losowego)
             if (judgeTheWeaknessSub < judgeRandomObj) {
                 collectionWithSubjects.set(iterationNumber, theWeaknessAfterMutation);
@@ -190,7 +200,13 @@ public class MainApp {
                 collectionWithSubjects.set(iterationNumber, randomObjectFromFirstPop);
             }
 
+            //System.out.println(theWeaknessAfterMutation + "" + judgeTheWeaknessSub);
+            String collect = theWeaknessAfterMutation.stream().map(String::valueOf).collect(Collectors.joining("-"));
+            System.out.println(collect + " " + judgeTheWeaknessSub);
+
+            ilosctur++;
         }
+        System.out.println("Ilosc tur " + ilosctur);
     }
 
 
