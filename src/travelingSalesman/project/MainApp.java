@@ -242,8 +242,8 @@ public class MainApp {
         int next = subject.get(0);
         sum += array[current][next];
 
-        List<Integer> result = new ArrayList<>();
-        result.add(sum);
+//        List<Integer> result = new ArrayList<>();
+//        result.add(sum);
         return sum;
     }
 
