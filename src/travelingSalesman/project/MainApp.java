@@ -50,10 +50,6 @@ public class MainApp {
         System.out.println("Wymiar macierzy: " + maxIndex + "x" + maxIndex);
         System.out.println("\n");
 
-        //TODO        potem sa liczone odleglosci - pomiedzy danymi indeksami 2->1->3->0 itd.
-        //TODO        od 2->1 = 15, 1->3 = 45 itd. 15+45
-        //TODO osobnik[2][1][3][0][5][7][4]   - nie moze sie indeks powtorzyc
-
         List<List<Integer>> collectionWithSubjects = new ArrayList<>();
 
         for (int i = 0; i < numberOfSubject; i++) {
@@ -82,7 +78,6 @@ public class MainApp {
                 sums.add(judgeResult);
 //                System.out.println(subject + " " + judgeResult);
             }
-//            System.out.println("\n \n \n");
 
             //TODO Selekcja Turniejowa
 
@@ -106,25 +101,14 @@ public class MainApp {
                     integerCollection.add(rating);
 
                 }
-//                System.out.println("MAPA" + mapa);
                 Integer min = Collections.min(integerCollection);
                 List<Integer> theWeaknessSubject = getKey(mapa, min);
 
                 tournamentPopulation.add(theWeaknessSubject);
 
             }
-//            System.out.println("\n \n \n");
-//            for (List<Integer> weaknessGroup : tournamentPopulation
-//            ) {
-//                System.out.println(weaknessGroup);
-//
-//            }
-//            System.out.println("\n");
 
             //TODO Krzyzowanie
-//            System.out.println("KRZYZOWANKO");
-//            System.out.println("\n");
-
 
             List<List<Integer>> populationAfterCrossOver = new ArrayList<>();
             //biore parami rodzicow (1+2),(3+4) itd
@@ -158,11 +142,6 @@ public class MainApp {
 //                System.out.println(subject2 + " " + judgeResult);
 //            }
 
-            //Biore losowa ocene z randomowego osobnika z populacji poczatkowej.
-            //Biore najmniejsza ocene i tego osobnika dodaje do kolejnej listy(kolekcji). Jezeli jest mniejszy niz osobnik poczatkowy.
-            //Mam w kolekcji 1 osobnika.
-//        osobnikNajmniejszy = sequence(0,5);
-//        populationAfterCrossOver.add(5, osobnikNajmniejszy);
 
             //TODO Mutacja przez inwersje
 //            System.out.println("MUTACJA");
